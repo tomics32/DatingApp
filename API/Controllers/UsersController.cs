@@ -3,11 +3,9 @@ using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Controllers;
-
-[ApiController]
-[Route("api/[controller]")] // /api/users
-public class UsersController : ControllerBase
+namespace API.Controllers
+{
+public class UsersController : BaseApiController
 {
     private readonly DataContext _context;
 
@@ -16,7 +14,7 @@ public class UsersController : ControllerBase
         _context = context;
     }
 
-    [HttpGet]
+    [HttpGet] // /api/users
     public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
     {
         var users = await _context.Users.ToListAsync();
@@ -29,4 +27,5 @@ public class UsersController : ControllerBase
     {
       return await _context.Users.FindAsync(id);
     }
+}
 }
