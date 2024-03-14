@@ -7,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
-constructor() { }
+  model: any = {}
+  constructor() { }
 
-ngOnInit(): void {
-  
-}
+  ngOnInit(): void {
+
+  } 
+  login()
+  {
+    console.log(this.model);
+  }
 
 }

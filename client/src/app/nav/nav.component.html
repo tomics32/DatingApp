@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="#">Dating App</a>
 
@@ -13,9 +13,15 @@
                 <a class="nav-link" href="#">Messages</a>
             </li>
         </ul>
-        <form class="d-flex">
-            <input class="form-control me-2" type="text" placeholder="Username">
-            <input class="form-control me-2" type="password" placeholder="Password">
+        <form #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off">
+            <input
+            name="username"
+            [(ngModel)]="model.username"
+             class="form-control me-2" type="text" placeholder="Username">
+            <input 
+            name="username"
+            [(ngModel)]="model.password"
+            class="form-control me-2" type="password" placeholder="Password">
             <button class="btn btn-outline-success" type="submit">Login</button>
         </form>
     </div>
