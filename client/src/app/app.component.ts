@@ -11,6 +11,7 @@ import { User } from './_models/user';
 export class AppComponent implements OnInit {
   title = 'Dating app';
   users: any;
+  public nameOfTheUser: any = null;
 
   constructor(
     private http: HttpClient,
@@ -36,7 +37,8 @@ export class AppComponent implements OnInit {
     if (!userString) return;
     const user: User = JSON.parse(userString);
     this.accountService.setCurrentUser(user);
-    
+    this.nameOfTheUser = user.username;
+
   }
 
 }
