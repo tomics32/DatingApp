@@ -9,7 +9,6 @@ import { User } from './_models/user';
 })
 export class AppComponent implements OnInit {
   title = 'Dating app';
-  public nameOfTheUser: any = null;
 
   constructor(
     private accountService: AccountService
@@ -26,7 +25,7 @@ export class AppComponent implements OnInit {
     if (!userString) return;
     const user: User = JSON.parse(userString);
     this.accountService.setCurrentUser(user);
-    this.nameOfTheUser = user.username;
+    this.accountService.nameOfTheUser = user.username;
 
   }
 

@@ -26,7 +26,7 @@ import { RegisterComponent } from './register/register.component';
     FormsModule,
     BsDropdownModule.forRoot()
   ],
-  providers: [],
+  providers: [NavComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

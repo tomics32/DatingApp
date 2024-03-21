@@ -12,16 +12,13 @@ import { AppComponent } from '../app.component';
 export class NavComponent implements OnInit {
 
   model: any = {}
-  nameOfTheUser: any = null
 
 
   constructor(
     public accountService: AccountService,
-    private appComponent: AppComponent
     ) { }
 
   ngOnInit(): void {
-     this.nameOfTheUser = this.appComponent.nameOfTheUser;
   }
 
   
@@ -32,6 +29,7 @@ export class NavComponent implements OnInit {
       },
       error: error => console.log(error)
     })
+
   }
 
   logout() {
