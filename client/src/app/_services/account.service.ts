@@ -10,7 +10,6 @@ export class AccountService {
   baseUrl = 'https://localhost:5001/api/';
   private currentUserSource = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
-  @Input() nameOfTheUser: any;
 
   constructor(private http: HttpClient) { }
 
@@ -21,7 +20,6 @@ export class AccountService {
         if (user) {
           localStorage.setItem('user', JSON.stringify(user))
           this.currentUserSource.next(user);
-          this.nameOfTheUser = user.username;
         }
 
       })
@@ -34,7 +32,6 @@ export class AccountService {
         if(user) {
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUserSource.next(user);
-          this.nameOfTheUser = user.username;
         }
       }))
   }
