@@ -8,6 +8,7 @@ public class DataContext : DbContext
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
     }
+    // dotnet ef --startup-project ../DatingApp.Api/ migrations add Initial
 
     public DbSet<AppUser> Users { get; set; }
 }
