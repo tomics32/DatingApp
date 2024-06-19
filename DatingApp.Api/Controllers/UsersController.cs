@@ -3,32 +3,31 @@ using DatingApp.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using DatingApp.Application.interfaces;
 
 namespace DatingApp.Api.Controllers
 {
     [Authorize]
     public class UsersController : BaseApiController
     {
-        private readonly DataContext _context;
+        private readonly IUserRepository _userRepository;
 
-        public UsersController(DataContext context)
+        public UsersController(IUserRepository userRepository)
         {
-            _context = context;
+            _userRepository = userRepository;
         }
-        [AllowAnonymous]
+
         [HttpGet] // /api/users
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
         {
-            var users = await _context.Users.ToListAsync();
-
-            return users;
+            return Ok(await _userRepository.GetUsersAsync());
+           
         }
-        
-        [AllowAnonymous]
-        [HttpGet("{id}")] // /api/users/2
-        public async Task<ActionResult<AppUser>> GetUser(int id)
+
+        [HttpGet("{username}")] // /api/users/lisa
+        public async Task<ActionResult<AppUser>> GetUser(string username)
         {
-            return await _context.Users.FindAsync(id);
+            return await _userRepository.GetUserByNameAsync(username);
         }
     }
 }
