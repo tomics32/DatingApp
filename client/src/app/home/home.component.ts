@@ -8,15 +8,17 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
   registerMode = false;
   users: any;
+  public userString: any;
 
   constructor() { }
 
   ngOnInit(): void {
-
+    this.userString = localStorage.getItem('user');
+    console.log(this.userString);
   }
 
   registerToggle() {
-    this.registerMode = !this.registerMode
+    this.registerMode = !this.registerMode;
   }
 
 
