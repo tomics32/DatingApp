@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 using DatingApp.Application.DTOs;
+using DatingApp.Application.Interfaces;
 using DatingApp.Domain.Entities;
 using DatingApp.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.Api.Controllers;
 
-public class AccountController(DataContext context) : BaseApiController
+public class AccountController(DataContext context, ITokenService tokenService) : BaseApiController
 {
     [HttpPost("register")] // api/account/register
     public async Task<ActionResult<AppUser>> Register(RegisterDto registerDto)

@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DatingApp.Application\DatingApp.Application.csproj" />
     <ProjectReference Include="..\DatingApp.Infrastructure\DatingApp.Infrastructure.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
   </ItemGroup>
 
   <PropertyGroup>
