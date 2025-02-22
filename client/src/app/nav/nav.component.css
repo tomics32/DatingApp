@@ -1,3 +1,15 @@
 .dropdown{
     cursor: pointer;
 }
+
+.custom-navbar {
+    background: linear-gradient(to right, #703b62, #994583); /* Jagodowy → Różowy */
+}
+
+.login-btn {
+    background-color: #E6A8D7;
+    color: black;
+    border: none;
+}
+
+
