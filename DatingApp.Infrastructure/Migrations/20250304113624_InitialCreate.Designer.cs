@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatingApp.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250302102051_UpdatedUserEntity")]
-    partial class UpdatedUserEntity
+    [Migration("20250304113624_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,6 +42,9 @@ namespace DatingApp.Infrastructure.Migrations
 
                     b.Property<string>("Gender")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Interests")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Introduction")
@@ -103,7 +106,7 @@ namespace DatingApp.Infrastructure.Migrations
             modelBuilder.Entity("DatingApp.Domain.Entities.Photo", b =>
                 {
                     b.HasOne("DatingApp.Domain.Entities.AppUser", "AppUser")
-                        .WithMany("Photo")
+                        .WithMany("Photos")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -113,7 +116,7 @@ namespace DatingApp.Infrastructure.Migrations
 
             modelBuilder.Entity("DatingApp.Domain.Entities.AppUser", b =>
                 {
-                    b.Navigation("Photo");
+                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }

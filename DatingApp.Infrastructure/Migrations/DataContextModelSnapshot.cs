@@ -41,6 +41,9 @@ namespace DatingApp.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Interests")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Introduction")
                         .HasColumnType("TEXT");
 
@@ -100,7 +103,7 @@ namespace DatingApp.Infrastructure.Migrations
             modelBuilder.Entity("DatingApp.Domain.Entities.Photo", b =>
                 {
                     b.HasOne("DatingApp.Domain.Entities.AppUser", "AppUser")
-                        .WithMany("Photo")
+                        .WithMany("Photos")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -110,7 +113,7 @@ namespace DatingApp.Infrastructure.Migrations
 
             modelBuilder.Entity("DatingApp.Domain.Entities.AppUser", b =>
                 {
-                    b.Navigation("Photo");
+                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }

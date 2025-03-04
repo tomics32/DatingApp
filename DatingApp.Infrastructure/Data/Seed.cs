@@ -30,6 +30,7 @@ public class Seed
             user.UserName = user.UserName.ToLower();
             user.passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("password"));
             user.passwordSalt = hmac.Key;
+
             context.Users.Add(user);
         }
         await context.SaveChangesAsync();
