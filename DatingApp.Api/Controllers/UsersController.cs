@@ -51,7 +51,7 @@ public class UsersController(IUserRepository userRepository, IMapper mapper) : B
             return BadRequest("Could not find user");
         }
 
-        mapper.Map(memberUpdateDto, user);
+         mapper.Map(memberUpdateDto, user);
 
 
         if (await userRepository.SaveAllAsync()) return NoContent();
