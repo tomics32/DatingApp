@@ -13,3 +13,31 @@
     background-color: #fff;
     border-top: none;
 }
+
+.gallery {
+    max-width: 800px; /* Ogranicza szerokość galerii */
+    margin: auto; /* Centrowanie */
+    border-radius: 10px; /* Zaokrąglenie rogów */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Lekki cień */
+    padding: 10px; /* Odsunięcie od krawędzi */
+    background-color: #f8f9fa; /* Delikatne tło */
+  }
+  
+  gallery::ng-deep .g-item {
+    border-radius: 8px; /* Zaokrąglone krawędzie zdjęć */
+  }
+  
+  gallery::ng-deep .g-thumb {
+    border-radius: 4px;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+  }
+  
+  gallery::ng-deep .g-thumb:hover {
+    border-color: #007bff; /* Podświetlenie miniatury */
+  }
+  
+  gallery::ng-deep .g-nav {
+    background-color: rgba(0, 0, 0, 0.6) !important; /* Poprawa nawigacji */
+  }
+  

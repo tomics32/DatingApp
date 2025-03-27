@@ -37,7 +37,7 @@ public class UsersController(IUserRepository userRepository, IMapper mapper, IPh
     [HttpPut]
     public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
     {
-        var user = await userRepository.GetUserByUsermaneAsync(User.GetUsername());
+        var user = await userRepository.GetUserByUsernameAsync(User.GetUsername());
 
         if (user == null)
         {
@@ -55,7 +55,7 @@ public class UsersController(IUserRepository userRepository, IMapper mapper, IPh
     [HttpPost("add-photo")]
     public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file)
     {
-        var user = await userRepository.GetUserByUsermaneAsync(User.GetUsername());
+        var user = await userRepository.GetUserByUsernameAsync(User.GetUsername());
         if (user == null)
         {
             return BadRequest("Cannot update user");
@@ -79,6 +79,76 @@ public class UsersController(IUserRepository userRepository, IMapper mapper, IPh
         }
         return BadRequest("Problem adding photo");
     }
+
+    [HttpPut("set-main-photo/{photoId:int}")]
+    public async Task<ActionResult> SetMainPhoto(int photoId)
+    {
+        var user = await userRepository.GetUserByUsernameAsync(User.GetUsername());
+
+        if(user == null)
+        {
+            return BadRequest("Could not find user");
+        }
+        var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+
+        if (photo == null)
+        {
+            return BadRequest("This photo doesn't exist");
+        }
+
+        if(photo.IsMain == true)
+        {
+            return BadRequest("This is already your main photo");
+        }
+        var currentMain = user.Photos.FirstOrDefault(x => x.IsMain == true);
+
+        if(currentMain != null)
+        {
+            currentMain.IsMain = false;
+        }
+        photo.IsMain = true;
+
+        if(await userRepository.SaveAllAsync())
+        {
+            return NoContent();
+        }
+        return BadRequest("Problem setting main photo");
+    }
+
+    [HttpDelete("delete-photo/{photoId:int}")]
+    public async Task<ActionResult> DeletePhoto(int photoId)
+    {
+        var user = await userRepository.GetUserByUsernameAsync(User.GetUsername());
+
+        if(user == null)
+        {
+            return BadRequest("Could not find user");
+        }
+        var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+
+        if(photo == null || photo.IsMain == true)
+        {
+            return BadRequest("You can't delete this photo");
+        }
+
+        if(photo.PublicId != null)
+        {
+            var result = await photoService.DeletePhotoAsync(photo.PublicId);
+            if(result.Error != null)
+            {
+                return BadRequest(result.Error.Message);
+            }
+        }
+        user.Photos.Remove(photo);
+
+        if(await userRepository.SaveAllAsync())
+        {
+            return Ok();
+        }
+
+        return BadRequest("Problem deleting photo");
+    }
+
 }
 
 
