@@ -2,6 +2,7 @@
 using AutoMapper;
 using DatingApp.Api.Extensions;
 using DatingApp.Application.DTOs;
+using DatingApp.Application.Helpers;
 using DatingApp.Application.Interfaces;
 using DatingApp.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -14,9 +15,11 @@ public class UsersController(IUserRepository userRepository, IMapper mapper, IPh
 {
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
     {
-        var users = await userRepository.GetMembersAsync();
+        var users = await userRepository.GetMembersAsync(userParams);
+
+        Response.AddPaginationHeader(users);
 
         return Ok(users);
     }
