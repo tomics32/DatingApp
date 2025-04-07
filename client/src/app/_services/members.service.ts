@@ -6,6 +6,7 @@ import { Photo } from '../_models/photo';
 import { PaginatedResponse } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
 import { AccountService } from './account.service';
+import { User } from '../_models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class MembersService {
   paginatedResult = signal<PaginatedResponse<Member> | null>(null);
   private userParams!: UserParams;
   constructor() {
-    const user = JSON.parse(localStorage.getItem('user')!); // lub inject z AccountService, jeśli możesz
+    const user = JSON.parse(localStorage.getItem('user')!);
     this.userParams = new UserParams(user);
   }
 
@@ -32,6 +33,13 @@ export class MembersService {
     }
     return this.userParams;
   }
+
+  resetUserParams(): UserParams{
+    localStorage.removeItem('userParams');
+    this.userParams = new UserParams(this.accountService.currentUser());
+    console.log(this.userParams);
+    return this.userParams;
+  }
   
   setUserParams(params: UserParams) {
     this.userParams = params;
@@ -39,12 +47,11 @@ export class MembersService {
   }
   
   getMembers() {
-    // Pobierz aktualne userParams z serwisu
     const userParams = this.getUserParams();
   
     let params = this.setPaginationHeaders(userParams.pageNumber, userParams.pageSize);
   
-    // Zastosuj filtry z userParams
+    
     params = params.append('minAge', userParams.minAge);
     params = params.append('maxAge', userParams.maxAge);
     params = params.append('gender', userParams.gender);

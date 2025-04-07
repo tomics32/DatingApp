@@ -10,8 +10,6 @@ export class UserParams {
 
     constructor(user: User | null){
         this.gender = user?.gender === 'female' ? 'male' : 'female';
-        
-        // Jeśli w localStorage znajdują się zapisane parametry, nadpisz domyślne wartości
         const savedParams = localStorage.getItem('userParams');
         if (savedParams) {
             const { minAge, maxAge, gender, orderBy, pageNumber, pageSize } = JSON.parse(savedParams);

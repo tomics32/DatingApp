@@ -30,25 +30,14 @@ export class MemberListComponent implements OnInit {
 
 
   resetFilters() {
-    this.userParams = new UserParams(null);
-    this.userParams.gender = 'male'; 
-    this.userParams.minAge = 18;
-    this.userParams.maxAge = 99;
-    this.userParams.pageNumber = 1;
-    this.userParams.pageSize = 5;
-    this.userParams.orderBy = 'lastActive';
-
-    this.memberService.setUserParams(this.userParams);
-
+    this.userParams = this.memberService.resetUserParams();
     this.loadMembers();
   }
   
 
   loadMembers() {
-    // Zapisz zmienione parametry do localStorage
     this.memberService.setUserParams(this.userParams);
 
-    // Załaduj członków z serwisu
     this.memberService.getMembers();
   }
 
