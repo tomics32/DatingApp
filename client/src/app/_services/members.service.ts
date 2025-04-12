@@ -6,6 +6,7 @@ import { Photo } from '../_models/photo';
 import { PaginatedResponse } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
 import { AccountService } from './account.service';
+import { setPaginationHeaders } from './paginationHelper';
 import { User } from '../_models/user';
 
 @Injectable({
@@ -17,6 +18,7 @@ export class MembersService {
   baseUrl = environment.apiUrl;
   paginatedResult = signal<PaginatedResponse<Member> | null>(null);
   private userParams!: UserParams;
+  
   constructor() {
     const user = JSON.parse(localStorage.getItem('user')!);
     this.userParams = new UserParams(user);
@@ -49,7 +51,7 @@ export class MembersService {
   getMembers() {
     const userParams = this.getUserParams();
   
-    let params = this.setPaginationHeaders(userParams.pageNumber, userParams.pageSize);
+    let params = setPaginationHeaders(userParams.pageNumber, userParams.pageSize);
   
     
     params = params.append('minAge', userParams.minAge);
@@ -65,15 +67,7 @@ export class MembersService {
   }
   
 
-  private setPaginationHeaders(pageNumber: number, pageSize: number) {
-    let params = new HttpParams();
-
-    if (pageNumber && pageSize) {
-      params = params.append('pageNumber', pageNumber);
-      params = params.append('pageSize', pageSize);
-    }
-    return params;
-  }
+  
 
   getMember(username: string) {
     // const member = this.members().find(x => x.username === username);
