@@ -5,7 +5,7 @@ export interface Message {
     senderPhotoUrl: string
     recipientId: number
     recipentUsername: string
-    recipientPhotoUrl: string
+    recipentPhotoUrl: string
     content: string
     dateRead?: Date
     messageSent: Date
