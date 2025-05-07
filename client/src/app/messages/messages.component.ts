@@ -19,26 +19,23 @@ export class MessagesComponent implements OnInit{
   container = 'Inbox';
   pageNumber = 1;
   pageSize = 5;
+  isOutbox = this.container === 'Outbox';
 
   ngOnInit(): void {
     this.loadMessages();
   }
-  
+
   loadMessages() {
     this.messageService.getMessages(this.pageNumber, this.pageSize, this.container);
   }
 
-  getRoute(message: Message)
-  {
-    if (this.container === 'Outbox'){
-      return `/members/${message.recipentUsername}`;
-    }
-    else {
-      return `/members/${message.senderUsername}`;
-    }
-
-  }
   
+
+  getRoute(message: Message) {
+    if (this.container === 'Outbox') return `/members/${message.recipentUsername}`;
+    else return `/members/${message.senderUsername}`;
+  }
+
   pageChanged(event: any) {
     if (this.pageNumber !== event.page) {
       this.pageNumber = event.page;

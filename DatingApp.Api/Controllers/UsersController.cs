@@ -22,7 +22,7 @@ public class UsersController(IUserRepository userRepository, IMapper mapper, IPh
 
         Response.AddPaginationHeader(users);
 
-        return Ok(users);
+        return Ok(users.Items);
     }
 
     [HttpGet("{username}")] // /api/users/1

@@ -2,34 +2,31 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { LikesService } from '../_services/likes.service';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { FormsModule } from '@angular/forms';
-import { MemberCardComponent } from "../members/member-card/member-card.component";
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { MemberCardComponent } from "../members/member-card/member-card.component";
 
 @Component({
   selector: 'app-lists',
   standalone: true,
-  imports: [ButtonsModule, FormsModule, MemberCardComponent, PaginationModule],
+  imports: [ButtonsModule, FormsModule, PaginationModule, MemberCardComponent],
   templateUrl: './lists.component.html',
   styleUrl: './lists.component.css'
 })
 export class ListsComponent implements OnInit, OnDestroy {
   likesService = inject(LikesService);
-
-  predicate: string = 'liked';
-  pageNumber = 1
+  predicate = 'liked';
+  pageNumber = 1;
   pageSize = 5;
 
   ngOnInit(): void {
-    this.loadLikes();
+    this.loadLikes(); 
   }
-
-  
 
   getTitle() {
     switch (this.predicate) {
       case 'liked': return 'Members you like';
-      case 'likedBy': return 'Members who liked you';
-      default: return 'Mutual';
+      case 'likedBy': return 'Members who like you';
+      default: return 'Mutual'
     }
   }
 
@@ -47,5 +44,5 @@ export class ListsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.likesService.paginatedResult.set(null);
   }
-}
 
+}

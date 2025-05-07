@@ -35,6 +35,7 @@ public class LikesController(ILikesRepository likesRepository) : BaseApiControll
         {
             likesRepository.DeleteLike(existingLike);
         }
+
         if (await likesRepository.SaveChanges())
         {
             return Ok();
@@ -57,6 +58,6 @@ public class LikesController(ILikesRepository likesRepository) : BaseApiControll
 
         Response.AddPaginationHeader(users);
 
-        return Ok(users);
+        return Ok(users.Items);
     }
 }
