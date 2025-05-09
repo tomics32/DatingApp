@@ -33,12 +33,14 @@
             <td>{{message.content}}</td>
             <td>
                 <div>
-                    <img [src]="isOutbox ? (message.recipentPhotoUrl || './assets/user.png') : (message.senderPhotoUrl || './assets/user.png')" alt="image of user"
-                        class="rounded-circle me-2">
-                    <strong>{{isOutbox ? message.recipentUsername : message.senderUsername}}</strong>
+                    <img [src]="isOutbox ? (message.recipentPhotoUrl || './assets/user.png') : (message.senderPhotoUrl || './assets/user.png')"
+                        alt="image of user" class="rounded-circle me-2">
+                    <img [src]="isOutbox ? (message.senderPhotoUrl || './assets/user.png') : (message.recipentPhotoUrl || './assets/user.png')"
+                        alt="image of user" class="rounded-circle me-2">
                 </div>
             </td>
             <td>{{message.messageSent | timeago}}</td>
+            <td><button class="btn btn-danger" (click)="$event.stopPropagation()" (click)="deleteMessage(message.id)">Delete</button></td>
 
         </tr>
 

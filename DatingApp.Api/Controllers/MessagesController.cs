@@ -4,10 +4,12 @@ using DatingApp.Application.DTOs;
 using DatingApp.Application.Helpers;
 using DatingApp.Application.Interfaces;
 using DatingApp.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.Api.Controllers;
 
+[Authorize]
 public class MessagesController(IMessageRepository messageRepository, IUserRepository userRepository, IMapper mapper) : BaseApiController
 {
     [HttpPost]
@@ -65,4 +67,41 @@ public class MessagesController(IMessageRepository messageRepository, IUserRepos
         return Ok(await messageRepository.GetMessageThread(currentUsername, username));
     }
 
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteMessage(int id)
+    {
+        var username = User.GetUsername();
+
+        var message = await messageRepository.GetMessage(id);
+        if (message == null)
+        {
+            return BadRequest("Cannot delete this message");
+        }
+        if (message.SenderUsername != username && message.RecipentUsername != username)
+        {
+            return Forbid();
+        }
+
+        if(message.SenderUsername == username)
+        {
+            message.SenderDeleted = true;
+        }
+
+        if(message.RecipentUsername == username)
+        {
+            message.RecipentDeleted = true;
+        }
+
+        if(message.SenderDeleted == true && message.RecipentDeleted == true)
+        {
+            messageRepository.DeleteMessage(message);
+        }
+
+        if(await messageRepository.SaveAllAsync())
+        {
+            return Ok();
+        }
+
+        return BadRequest("Problem deleting the message");
+    }
 }
