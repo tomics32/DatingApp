@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using DatingApp.Domain.Entities;
+using DatingApp.Infrastructure.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -8,6 +11,15 @@ public static class IdentityServiceExtensions
 {
     public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config)
     {
+        services.AddIdentityCore<AppUser>(opt =>
+        {
+            opt.Password.RequireNonAlphanumeric = false;
+        })
+            .AddRoles<AppRole>()
+            .AddRoleManager<RoleManager<AppRole>>()
+            .AddEntityFrameworkStores<DataContext>();
+        
+
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
         {
             var tokenKey = config["TokenKey"] ?? throw new Exception("TokenKey not found");
