@@ -32,14 +32,14 @@ public class AccountController(UserManager<AppUser> userManager, ITokenService t
             return BadRequest(result.Errors);
         }
 
-         return new UserDto
-         {
-             Username = user.UserName,
-             Token = tokenService.CreateToken(user),
-             KnownAs = user.KnownAs,
-             Gender = user.Gender,
-             PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
-         }; 
+        return new UserDto
+        {
+            Username = user.UserName,
+            Token = await tokenService.CreateToken(user),
+            KnownAs = user.KnownAs,
+            Gender = user.Gender,
+            PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+        };
     }
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
@@ -61,7 +61,7 @@ public class AccountController(UserManager<AppUser> userManager, ITokenService t
         return new UserDto
         {
             Username = user.UserName,
-            Token = tokenService.CreateToken(user),
+            Token = await tokenService.CreateToken(user),
             PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain == true)?.Url,
             KnownAs = user.KnownAs,
             Gender = user.Gender
