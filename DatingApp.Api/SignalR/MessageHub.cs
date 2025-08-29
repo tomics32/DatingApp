@@ -53,7 +53,7 @@ public class MessageHub(IMessageRepository messageRepository, IUserRepository us
             Sender = sender,
             Recipient = recipient,
             SenderUsername = sender.UserName,
-            RecipentUsername = recipient.UserName,
+            RecipientUsername = recipient.UserName,
             Content = createMessageDto.Content
         };
 

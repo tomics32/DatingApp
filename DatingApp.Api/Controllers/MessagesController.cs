@@ -34,7 +34,7 @@ public class MessagesController(IMessageRepository messageRepository, IUserRepos
             Sender = sender,
             Recipient = recipient,
             SenderUsername = sender.UserName,
-            RecipentUsername = recipient.UserName,
+            RecipientUsername = recipient.UserName,
             Content = createMessageDto.Content
         };
 
@@ -77,7 +77,7 @@ public class MessagesController(IMessageRepository messageRepository, IUserRepos
         {
             return BadRequest("Cannot delete this message");
         }
-        if (message.SenderUsername != username && message.RecipentUsername != username)
+        if (message.SenderUsername != username && message.RecipientUsername != username)
         {
             return Forbid();
         }
@@ -87,12 +87,12 @@ public class MessagesController(IMessageRepository messageRepository, IUserRepos
             message.SenderDeleted = true;
         }
 
-        if(message.RecipentUsername == username)
+        if(message.RecipientUsername == username)
         {
-            message.RecipentDeleted = true;
+            message.RecipientDeleted = true;
         }
 
-        if(message.SenderDeleted == true && message.RecipentDeleted == true)
+        if(message.SenderDeleted == true && message.RecipientDeleted == true)
         {
             messageRepository.DeleteMessage(message);
         }

@@ -13,7 +13,7 @@ import { NgxSpinnerComponent } from 'ngx-spinner';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  private accountService = inject(AccountService)
+  private accountService = inject(AccountService);
 
   ngOnInit(): void {
     this.setCurrentUser();

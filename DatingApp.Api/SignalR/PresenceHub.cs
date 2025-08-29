@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace DatingApp.Api.SignalR;
-
 [Authorize]
 public class PresenceHub(PresenceTracker tracker) : Hub
 {

@@ -32,9 +32,9 @@ public class MessageRepository(DataContext context, IMapper mapper) : IMessageRe
 
         query = messageParams.Container switch
         {
-            "Inbox" => query.Where(x => x.Recipient.UserName == messageParams.Username && x.RecipentDeleted == false),
+            "Inbox" => query.Where(x => x.Recipient.UserName == messageParams.Username && x.RecipientDeleted == false),
             "Outbox" => query.Where(x => x.Sender.UserName == messageParams.Username && x.SenderDeleted == false),
-            _ => query.Where(x => x.Recipient.UserName == messageParams.Username && x.DateRead == null && x.RecipentDeleted == false)
+            _ => query.Where(x => x.Recipient.UserName == messageParams.Username && x.DateRead == null && x.RecipientDeleted == false)
         };
 
         var messages = query.ProjectTo<MessageDto>(mapper.ConfigurationProvider);
@@ -46,10 +46,10 @@ public class MessageRepository(DataContext context, IMapper mapper) : IMessageRe
     {
         var messages = await context.Messages
             .Include(x => x.Sender).ThenInclude(x => x.Photos)
-            .Include(x => x.Recipient).ThenInclude(x => x.Photos).Where(x => x.RecipentUsername == currentUsername && x.RecipentDeleted == false && x.SenderUsername == recipientUsername
-            || x.SenderUsername == currentUsername && x.SenderDeleted == false && x.RecipentUsername == recipientUsername).OrderBy(x => x.MessageSent).ToListAsync();
+            .Include(x => x.Recipient).ThenInclude(x => x.Photos).Where(x => x.RecipientUsername == currentUsername && x.RecipientDeleted == false && x.SenderUsername == recipientUsername
+            || x.SenderUsername == currentUsername && x.SenderDeleted == false && x.RecipientUsername == recipientUsername).OrderBy(x => x.MessageSent).ToListAsync();
 
-        var unreadMessages = messages.Where(x => x.DateRead == null && x.RecipentUsername == currentUsername).ToList();
+        var unreadMessages = messages.Where(x => x.DateRead == null && x.RecipientUsername == currentUsername).ToList();
 
         if(unreadMessages.Count != 0)
         {
@@ -70,5 +70,27 @@ public class MessageRepository(DataContext context, IMapper mapper) : IMessageRe
         var count = await source.CountAsync();
         var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
         return new PagedList<T>(items, count, pageNumber, pageSize);
+    }
+
+    public void AddGroup(Group group)
+    {
+        context.Groups.Add(group);
+    }
+
+    public void RemoveConnection(Connection connection)
+    {
+        context.Connections.Remove(connection);
+    }
+
+    public async Task<Connection?> GetConnection(string connectionId)
+    {
+        return await context.Connections.FindAsync(connectionId);
+    }
+
+    public async Task<Group?> GetMessageGroup(string groupName)
+    {
+        return await context.Groups
+            .Include(x => x.Connections)
+            .FirstOrDefaultAsync(x => x.Name == groupName);
     }
 }

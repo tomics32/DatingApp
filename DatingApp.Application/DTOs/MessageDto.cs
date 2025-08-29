@@ -9,8 +9,8 @@ public class MessageDto
     public required string SenderUsername { get; set; }
     public required string SenderPhotoUrl { get; set; }
     public int RecipientId { get; set; }
-    public required string RecipentUsername { get; set; }
-    public required string RecipentPhotoUrl { get; set; }
+    public required string RecipientUsername { get; set; }
+    public required string RecipientPhotoUrl { get; set; }
     public required string Content { get; set; }
     public DateTime? DateRead { get; set; }
     public DateTime MessageSent { get; set; }
